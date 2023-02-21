@@ -1,0 +1,5 @@
+package org.ekstep.language.measures.enums;
+
+public enum LanguageActorNames {
+    LEXILE_MEASURES_ACTOR, IMPORT_ACTOR, INDEXES_ACTOR, ENRICH_ACTOR, INDOWORDNET_ACTOR, LANGUAGE_CACHE_ACTOR, TRANSLITERATOR_ACTOR;
+}
