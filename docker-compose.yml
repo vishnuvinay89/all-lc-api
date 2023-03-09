@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+  language-complexity:
+    image: language-complexity-api:latest
+    # restart: always
+    ports:
+      - 8080:8080
