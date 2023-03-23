@@ -20,6 +20,7 @@ public class WordMeasures {
         SyllableMap.loadSyllables("te");
         SyllableMap.loadSyllables("hi");
         SyllableMap.loadSyllables("ka");
+        SyllableMap.loadSyllables("ta");
     }
 
     public static WordComplexity getWordComplexity(String language, String word) {

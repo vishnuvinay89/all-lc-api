@@ -27,6 +27,7 @@ public class ParagraphMeasures {
         SyllableMap.loadSyllables("te");
         SyllableMap.loadSyllables("hi");
         SyllableMap.loadSyllables("ka");
+        SyllableMap.loadSyllables("ta");
     }
 
 
