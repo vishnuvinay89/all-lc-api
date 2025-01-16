@@ -8,7 +8,6 @@ import org.ekstep.language.measures.entity.WordComplexity;
 import org.ekstep.language.measures.meta.OrthographicVectors;
 import org.ekstep.language.measures.meta.PhonologicVectors;
 import org.ekstep.language.measures.meta.SyllableMap;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +20,8 @@ public class WordMeasures {
         SyllableMap.loadSyllables("hi");
         SyllableMap.loadSyllables("ka");
         SyllableMap.loadSyllables("ta");
+        SyllableMap.loadSyllables("gu");
+        SyllableMap.loadSyllables("od");
     }
 
     public static WordComplexity getWordComplexity(String language, String word) {
@@ -41,14 +42,17 @@ public class WordMeasures {
         wc.setPhonicComplexity(0.0);
         String notation = "";
         String unicode = "";
+        
         Integer[] orthoVector = new Integer[OrthographicVectors.getVectorCount(language)];
         Integer[] phonicVector = new Integer[PhonologicVectors.getVectorCount(language)];
+        
         for (Syllable s : syllables) {
             notation += s.getCode();
             for (String uc : s.getUnicodes()) {
                 unicode += ("\\" + uc);
             }
             unicode += " ";
+            
             getSyllableValues(language, s, orthoVector, phonicVector, wc);
         }
         wc.setUnicode(unicode.trim());
@@ -56,32 +60,40 @@ public class WordMeasures {
         wc.setOrthoVec(orthoVector);
         wc.setPhonicVec(phonicVector);
         wc.setUnicodeTypeMap(getUnicodeTypeMap(language, word));
+        
         return wc;
     }
 
     private static void getSyllableValues(String language, Syllable s, Integer[] orthoVector, Integer[] phonicVector,
             WordComplexity wc) {
+      
         List<String> unicodes = s.getUnicodes();
         Integer[] vec1 = null;
         Integer[] vec2 = null;
         Double[] orthoWeights = OrthographicVectors.getWeightage(language);
         Double[] phonicWeights = PhonologicVectors.getWeightage(language);
+       
         Double orthoComplexity = 0.0;
         Double phonicComplexity = 0.0;
         Map<String, Double[]> orthoWeightMap = new HashMap<String, Double[]>();
         Map<String, Double[]> weights = new HashMap<String, Double[]>();
         for (String uc : unicodes) {
             Integer[] v1 = OrthographicVectors.getOrthographicVector(language, uc);
+            
             orthoComplexity += VectorUtil.dotProduct(v1, orthoWeights);
             int orthoIncr = OrthographicVectors.getIncrement(language, uc);
+            
             orthoComplexity += (orthoComplexity * orthoIncr / 100);
             vec1 = VectorUtil.addVector(vec1, v1);
-            orthoWeightMap.put(uc, VectorUtil.dotMatrix(v1, orthoWeights, orthoIncr));
 
+            orthoWeightMap.put(uc, VectorUtil.dotMatrix(v1, orthoWeights, orthoIncr));
             Integer[] v2 = PhonologicVectors.getPhonologicVector(language, uc);
+           
             phonicComplexity += VectorUtil.dotProduct(v2, phonicWeights);
+
             int phonicIncr = PhonologicVectors.getIncrement(language, uc);
             phonicComplexity += (phonicComplexity * phonicIncr / 100);
+
             vec2 = VectorUtil.addVector(vec2, v2);
             weights.put(uc, VectorUtil.dotMatrix(v2, phonicWeights, phonicIncr));
         }
@@ -109,6 +121,7 @@ public class WordMeasures {
         }
         orthoVector = VectorUtil.addVector(orthoVector, vec1);
         phonicVector = VectorUtil.addVector(phonicVector, vec2);
+
         wc.setOrthoComplexity(wc.getOrthoComplexity() + orthoComplexity);
         wc.setPhonicComplexity(wc.getPhonicComplexity() + phonicComplexity);
     }
