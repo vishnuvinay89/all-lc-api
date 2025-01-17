@@ -21,7 +21,7 @@ public class WordMeasures {
         SyllableMap.loadSyllables("ka");
         SyllableMap.loadSyllables("ta");
         SyllableMap.loadSyllables("gu");
-        SyllableMap.loadSyllables("od");
+        SyllableMap.loadSyllables("or");
     }
 
     public static WordComplexity getWordComplexity(String language, String word) {

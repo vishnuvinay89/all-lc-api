@@ -29,7 +29,7 @@ public class ParagraphMeasures {
         SyllableMap.loadSyllables("ka");
         SyllableMap.loadSyllables("ta");
         SyllableMap.loadSyllables("gu");
-        SyllableMap.loadSyllables("od");
+        SyllableMap.loadSyllables("or");
     }
 
 
